@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:insighttasker/app_localizations.dart';
 import 'package:insighttasker/languageProvider.dart';
@@ -18,7 +16,6 @@ void main() async {
 
   runApp(
     Builder(builder: (context) {
-
       final mq = MediaQuery.of(context);
       return ChangeNotifierProvider(
         create: (context) => LanguageProvider(),
@@ -27,17 +24,13 @@ void main() async {
     }),
   );
 }
+
 class TodoApp extends StatefulWidget {
-  static void setLocale(BuildContext context, Locale newLocale) {
-    var state = context.findAncestorStateOfType<_TodoAppState>();
-    state!.setLocale(newLocale);
-  }
   @override
   State<TodoApp> createState() => _TodoAppState();
 }
 
 class _TodoAppState extends State<TodoApp> {
-
   Locale? _locale;
 
   @override
@@ -61,37 +54,35 @@ class _TodoAppState extends State<TodoApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<LanguageProvider>(
         builder: (context, languageProvider, child) {
-          return MaterialApp(
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            localeResolutionCallback: (locale, supportedLocales) {
-              for (var supportedLocale in supportedLocales) {
-                if (supportedLocale?.languageCode == locale?.languageCode &&
-                    supportedLocale?.countryCode == locale?.countryCode) {
-                  return supportedLocale;
-                }
-              }
-              return supportedLocales?.first;
-            },
-            locale: _locale,
-            supportedLocales: const [
-              Locale('ar', ''),
-              Locale('en', ''),
-              Locale('es', ''),
-              Locale('ru', ''),
-            ],
-            // locale: Locale('en'), // Set the default locale
-            home: HomeScreen(),
-          );
-        }
-    );
+      return MaterialApp(
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        localeResolutionCallback: (locale, supportedLocales) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale?.languageCode == locale?.languageCode &&
+                supportedLocale?.countryCode == locale?.countryCode) {
+              return supportedLocale;
+            }
+          }
+          return supportedLocales?.first;
+        },
+        locale: _locale,
+        supportedLocales: const [
+          Locale('ar', ''),
+          Locale('en', ''),
+          Locale('es', ''),
+          Locale('ru', ''),
+        ],
+        // locale: Locale('en'), // Set the default locale
+        home: HomeScreen(),
+      );
+    });
   }
 }
 
@@ -102,9 +93,6 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
-
-
 class _HomeScreenState extends State<HomeScreen> {
   final _todosBox = Hive.box<Todo>('todos');
   late TextEditingController _titleController;
@@ -112,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _currentLanguage = 'en';
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-  GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -146,24 +134,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
     switch (_currentLanguage) {
       case 'es':
-        _todosBox.putAt(0, Todo(title: 'Tarea 1', description: 'Esta es la tarea 1'));
-        _todosBox.putAt(1, Todo(title: 'Tarea 2', description: 'Esta es la tarea 2'));
-        _todosBox.putAt(2, Todo(title: 'Tarea 3', description: 'Esta es la tarea 3'));
+        _todosBox.putAt(
+            0, Todo(title: 'Tarea 1', description: 'Esta es la tarea 1'));
+        _todosBox.putAt(
+            1, Todo(title: 'Tarea 2', description: 'Esta es la tarea 2'));
+        _todosBox.putAt(
+            2, Todo(title: 'Tarea 3', description: 'Esta es la tarea 3'));
         break;
       case 'ar':
-        _todosBox.putAt(0, Todo(title: 'مهمة 1', description: 'هذه هي المهمة 1'));
-        _todosBox.putAt(1, Todo(title: 'مهمة 2', description: 'هذه هي المهمة 2'));
-        _todosBox.putAt(2, Todo(title: 'مهمة 3', description: 'هذه هي المهمة 3'));
+        _todosBox.putAt(
+            0, Todo(title: 'مهمة 1', description: 'هذه هي المهمة 1'));
+        _todosBox.putAt(
+            1, Todo(title: 'مهمة 2', description: 'هذه هي المهمة 2'));
+        _todosBox.putAt(
+            2, Todo(title: 'مهمة 3', description: 'هذه هي المهمة 3'));
         break;
       case 'ru':
-        _todosBox.putAt(0, Todo(title: 'Задача 1', description: 'Это задача 1'));
-        _todosBox.putAt(1, Todo(title: 'Задача 2', description: 'Это задача 2'));
-        _todosBox.putAt(2, Todo(title: 'Задача 3', description: 'Это задача 3'));
+        _todosBox.putAt(
+            0, Todo(title: 'Задача 1', description: 'Это задача 1'));
+        _todosBox.putAt(
+            1, Todo(title: 'Задача 2', description: 'Это задача 2'));
+        _todosBox.putAt(
+            2, Todo(title: 'Задача 3', description: 'Это задача 3'));
         break;
       default:
-        _todosBox.putAt(0, Todo(title: 'Task 1', description: 'This is task 1'));
-        _todosBox.putAt(1, Todo(title: 'Task 2', description: 'This is task 2'));
-        _todosBox.putAt(2, Todo(title: 'Task 3', description: 'This is task 3'));
+        _todosBox.putAt(
+            0, Todo(title: 'Task 1', description: 'This is task 1'));
+        _todosBox.putAt(
+            1, Todo(title: 'Task 2', description: 'This is task 2'));
+        _todosBox.putAt(
+            2, Todo(title: 'Task 3', description: 'This is task 3'));
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -185,10 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider =
+        Provider.of<LanguageProvider>(context, listen: false);
 
-    final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
-
-    print('rebuild in build');
+    print('rebuild in build locale=${languageProvider.locale}');
     return Scaffold(
       drawer: Drawer(
           backgroundColor: Colors.black38,
@@ -198,22 +198,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: SvgPicture.asset('assets/svg/aboutus.svg',
                     height: 100, width: 100),
               ),
-
-
               listTileDrawer(
                 assetsvg: 'assets/svg/setting.svg',
                 title: 'Setting',
-
               ),
               listTileDrawer(
                 assetsvg: 'assets/svg/facebooklogo.svg',
                 title: 'Facebook',
-
               ),
               listTileDrawer(
                 assetsvg: 'assets/svg/sync.svg',
                 title: 'Sync',
-
               ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.16,
@@ -261,8 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
       appBar: AppBar(
         backgroundColor: Colors.indigo[200],
-
-        title: Text(AppLocalizations.of(context).translate('app_title')),
+        title: Text(languageProvider.translate('app_title')),
         actions: [
           DropdownButton<String>(
             value: _currentLanguage,
@@ -285,11 +279,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
             onChanged: (value) async {
-
               languageProvider.changeLanguage(value!);
               setState(() {
                 _currentLanguage = value!;
-                LocaleConstants.changeLanguage(context, _currentLanguage);
               });
               await _onRefresh();
             },
@@ -302,264 +294,258 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Center(
-                            child: Container(
-
-                              width: MediaQuery.of(context).size.width*0.4,
-                              height: MediaQuery.of(context).size.height*0.1,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xff5694F2),
-                              ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.white38,
-
-                                        child: Icon(
-                                          Icons.cyclone,
-                                          color: Colors.white,
-                                        ),
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xff5694F2),
+                            ),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white38,
+                                      child: Icon(
+                                        Icons.cyclone,
+                                        color: Colors.white,
                                       ),
                                     ),
-
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('On Going', style: TextStyle(
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'On Going',
+                                        style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 18.0,
-                                            fontWeight: FontWeight.bold
-                                        ),),
-
-
-                                        Text('24 Tasks', style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        '24 Tasks',
+                                        style: TextStyle(
                                             color: Colors.black38,
                                             fontSize: 15.0,
-                                            fontWeight: FontWeight.w200
-                                        ),),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                            fontWeight: FontWeight.w200),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
                         ),
-
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width*0.05,
-                        ),
-
-
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Center(
-                            child: Container(
-
-                              width: MediaQuery.of(context).size.width*0.4,
-                              height: MediaQuery.of(context).size.height*0.1,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xffFEC347),
-                              ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.white38,
-
-                                        child: Icon(
-                                          Icons.cyclone,
-                                          color: Colors.white,
-                                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xffFEC347),
+                            ),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white38,
+                                      child: Icon(
+                                        Icons.cyclone,
+                                        color: Colors.white,
                                       ),
                                     ),
-
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Process', style: TextStyle(
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Process',
+                                        style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 18.0,
-                                            fontWeight: FontWeight.bold
-                                        ),),
-
-
-                                        Text('12 Tasks', style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        '12 Tasks',
+                                        style: TextStyle(
                                             color: Colors.black38,
                                             fontSize: 15.0,
-                                            fontWeight: FontWeight.w200
-                                        ),),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                            fontWeight: FontWeight.w200),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Center(
-                            child: Container(
-
-                              width: MediaQuery.of(context).size.width*0.45,
-                              height: MediaQuery.of(context).size.height*0.1,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xffF26E56),
-                              ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.white38,
-
-                                        child: Icon(
-                                          Icons.cyclone,
-                                          color: Colors.white,
-                                        ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xffF26E56),
+                            ),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white38,
+                                      child: Icon(
+                                        Icons.cyclone,
+                                        color: Colors.white,
                                       ),
                                     ),
-
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Completed', style: TextStyle(
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Completed',
+                                        style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 18.0,
-                                            fontWeight: FontWeight.bold
-                                        ),),
-
-
-                                        Text('24 Tasks', style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        '24 Tasks',
+                                        style: TextStyle(
                                             color: Colors.black38,
                                             fontSize: 15.0,
-                                            fontWeight: FontWeight.w200
-                                        ),),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                            fontWeight: FontWeight.w200),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width*0.05,
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Center(
-                            child: Container(
-
-                              width: MediaQuery.of(context).size.width*0.4,
-                              height: MediaQuery.of(context).size.height*0.1,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xff53C2C5),
-                              ),
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.cyclone,
-                                      color: Colors.white,
-                                    ),
-
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('Canceled', style: TextStyle(
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xff53C2C5),
+                            ),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.cyclone,
+                                    color: Colors.white,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Canceled',
+                                        style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 18.0,
-                                            fontWeight: FontWeight.bold
-                                        ),),
-
-
-                                        Text('12 Tasks', style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        '12 Tasks',
+                                        style: TextStyle(
                                             color: Colors.black38,
                                             fontSize: 15.0,
-                                            fontWeight: FontWeight.w200
-                                        ),),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                            fontWeight: FontWeight.w200),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              )
-            ),
+                ),
+              ],
+            )),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   final todo = _todosBox.getAt(index);
                   return InkWell(
-                    onTap: (){
-
-                    },
+                    onTap: () {},
                     hoverColor: Colors.blue,
                     splashColor: Colors.yellow,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-                        child: Container(
-
-                          decoration: BoxDecoration(
-                            color: Colors.indigo[100],
-                            borderRadius: BorderRadius.circular(10),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0, left: 8.0, right: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.indigo[100],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            todo!.title,
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
-                          child: ListTile(
-
-                          title: Text(todo!.title,style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold
-                          ),),
                           subtitle: Row(
                             children: [
                               Icon(Icons.check_circle),
                               Text('${todo.description}'),
                             ],
                           ),
-                                              ),
                         ),
                       ),
+                    ),
                   );
                 },
                 childCount: _todosBox.length,
@@ -574,20 +560,20 @@ class _HomeScreenState extends State<HomeScreen> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text(AppLocalizations.of(context).translate('add_todo')),
+                title: Text(languageProvider.translate('add_todo')),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextFormField(
                       controller: _titleController,
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('title'),
+                        labelText: languageProvider.translate('title'),
                       ),
                     ),
                     TextFormField(
                       controller: _descriptionController,
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).translate('description'),
+                        labelText: languageProvider.translate('description'),
                       ),
                     ),
                   ],
@@ -597,7 +583,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text(AppLocalizations.of(context).translate('cancel')),
+                    child: Text(languageProvider.translate('cancel')),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -608,7 +594,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.pop(context);
                       await _onRefresh();
                     },
-                    child: Text(AppLocalizations.of(context).translate('add')),
+                    child: Text(languageProvider.translate('add')),
                   ),
                 ],
               );
@@ -622,8 +608,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class listTileDrawer extends StatelessWidget {
-  final String? title ;
-  final String assetsvg ;
+  final String? title;
+  final String assetsvg;
   listTileDrawer({this.title, required this.assetsvg});
   @override
   Widget build(BuildContext context) {
@@ -637,32 +623,30 @@ class listTileDrawer extends StatelessWidget {
         hoverColor: Colors.yellow[100],
         splashColor: Colors.purple[100],
         focusColor: Colors.tealAccent[100],
-
         child: ListTile(
           leading: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: SvgPicture.asset(assetsvg, width: 15, height: 18, color: Colors.white,),
+            child: SvgPicture.asset(
+              assetsvg,
+              width: 15,
+              height: 18,
+              color: Colors.white,
+            ),
           ),
           title: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Text
-              (title!,
-
+            child: Text(
+              title!,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.bold,
-
-              ),),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-
-
-
-
